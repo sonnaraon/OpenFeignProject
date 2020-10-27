@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="TB_TEST">
+	<select id="selectTestList" resultType="com.nrson.test.vo.TestResponseVO">
+		SELECT s_name,
+		       f_name
+		FROM code
+	</select>
+	
+	<select id="selectTestOne" parameterType="com.nrson.test.vo.TestRequestVO" resultType="com.nrson.test.vo.TestResponseVO">
+		SELECT s_name,
+		       f_name
+		FROM code
+		WHERE S_NAME = #{ab1}
+	</select>	
+	
+	<insert id="insertTestData" parameterType="com.nrson.test.vo.TestRequestVO">
+		INSERT INTO CODE(S_NAME, F_NAME) VALUES(#{ab1}, #{ab2}); 
+	</insert>
+	
+	<update id="updateTestData" parameterType="com.nrson.test.vo.TestRequestVO">
+		UPDATE CODE
+			SET F_NAME = #{ab3}
+		WHERE S_NAME = #{ab1}	
+	</update>
+	
+	<delete id="deleteTestData" parameterType="com.nrson.test.vo.TestRequestVO">
+		DELETE FROM CODE WHERE S_NAME = #{ab1}
+	</delete>
+	
+</mapper>

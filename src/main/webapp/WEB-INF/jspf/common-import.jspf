@@ -1,0 +1,100 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<meta http-equiv="pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+<link rel="stylesheet" type="text/css" href="/static/js/jqui/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="/static/js/jqgrid/ui.jqgrid.css" />
+<link rel="stylesheet" type="text/css" href="/static/js/jqgrid/plugins/searchFilter.css" />
+<link rel="stylesheet" type="text/css" href="/static/js/jqgrid/plugins/ui.multiselect.css" />
+<link rel="stylesheet" type="text/css" href="/static/js/jquery-ui-timepicker-addon.css" />
+
+<script type="text/javascript" src="/static/js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="/static/js/jqui/jquery-ui.js"></script>
+<script type="text/javascript" src="/static/js/jqgrid/grid.locale-kr.js"></script>
+<script type="text/javascript" src="/static/js/jqgrid/jquery.jqGrid.min.js"></script>
+<script type="text/javascript" src="/static/js/jqgrid/plugins/grid.addons.js"></script>
+<script type="text/javascript" src="/static/js/jqgrid/plugins/grid.postext.js"></script>
+<script type="text/javascript" src="/static/js/jqgrid/plugins/grid.setcolumns.js"></script> 
+<script type="text/javascript" src="/static/js/jqgrid/plugins/jquery.contextmenu.js"></script>
+<script type="text/javascript" src="/static/js/jqgrid/plugins/jquery.searchFilter.js"></script>
+<script type="text/javascript" src="/static/js/jqgrid/plugins/jquery.tablednd.js"></script>
+<script type="text/javascript" src="/static/js/jqgrid/plugins/ui.multiselect.js"></script>
+<script type="text/javascript" src="/static/js/jquery-ui-timepicker-addon.js"></script>
+
+<script type="text/javascript">
+	$.datepicker.setDefaults({
+	    dateFormat: 'yy/mm/dd',
+	    /*prevText: '이전 달',
+	    nextText: '다음 달',*/
+	    monthNames: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+	    monthNamesShort: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+	    /*dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+	    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+	    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],*/
+	    showMonthAfterYear: true,
+	    yearSuffix: '-'
+	});
+		
+	$(function() {
+					
+		$("#datepicker1, #datepicker2").datepicker({	        
+	      	beforeShow: function() {
+				setTimeout(function(){
+      				$('.ui-datepicker').css('z-index', 99999999999999);
+	          	}, 0);
+	      	}
+		});
+		
+		$("#datetimepicker").datetimepicker({	   
+			dateFormat:'yy/mm/dd',
+			timeFormat:'HH:mm:ss',
+	        monthNamesShort:[ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12' ],
+	        //dayNamesMin:[ '일', '월', '화', '수', '목', '금', '토' ],
+	        
+			beforeShow: function() {
+				setTimeout(function(){
+      				$('.ui-datepicker').css('z-index', 99999999999999);
+	          	}, 0);
+	      	}
+		});
+    
+  	});
+	
+	function gfn_getToday() {
+		var Now = new Date();		
+		var month = Now.getMonth() + 1 + "";
+		
+		var today = "" + Now.getFullYear();
+		today += "/" + (month.length < 2 ? "0" + month : month);
+		today += "/" + (String(Now.getDate()).length < 2 ? "0" + Now.getDate() : Now.getDate());
+		today += " " + (String(Now.getHours()).length < 2 ? "0" + Now.getHours() : Now.getHours());
+		today += ":" + (String(Now.getMinutes()).length < 2 ? "0" + Now.getMinutes() : Now.getMinutes());
+		today += ":" + (String(Now.getSeconds()).length < 2 ? "0" + Now.getSeconds() : Now.getSeconds());
+		
+		return today;
+	}
+	
+	/*
+	   * @param string grid_id 사이즈를 변경할 그리드의 아이디
+	   * @param string div_id 그리드의 사이즈의 기준을 제시할 div 의 아이디
+	   * @param string width 그리드의 초기화 width 사이즈
+	   * @param boolean tf 그리드의 리사이즈 여부(true/false)
+	   */
+	function gfn_resizeJqGridWidth(grid_id, div_id, width, tf){
+
+	      // window에 resize 이벤트를 바인딩 한다. 
+	      $(window).bind('resize', function() {
+
+	     var resizeWidth = $('#grid_container').width()-33; //jQuery-ui의 padding 설정 및 border-width값때문에 넘치는 걸 빼줌.
+
+	          // 그리드의 width 초기화
+	          $('#' + grid_id).setGridWidth( resizeWidth, tf);
+
+	          // 그리드의 width를 div 에 맞춰서 적용
+	          $('#' + grid_id).setGridWidth( resizeWidth , tf); //Resized to new width as per window. 
+
+	       }).trigger('resize');
+	}
+</script>
