@@ -16,34 +16,33 @@ import com.nrson.test.vo.TestResponseVO;
 
 @Service("TestService")
 public class TestService {
-	
+
 	@Autowired
 	private TestCodeDAO testCodeDAO;
 
 	public TestResponseDTO getTestSelList() throws Exception {
-		
-		final List<TestResponseVO> resVo = testCodeDAO.selectCodeList();		
-		
+
+		final List<TestResponseVO> resVo = testCodeDAO.selectCodeList();
+
 //		return TestResponseDTO.builder()
 //				.codeList(resVo)
 //				.codeListCnt(resVo.size())
 //				.build();
-		
+
 		return TestTransform.transform(resVo);
 	}
-	
-	
+
 	public TestOneResponseDTO getTestSelOne(TestRequestDTO reqDto) throws Exception {
 //		TestRequestVO reqVo = TestRequestVO.builder()
 //                .ab1(reqDto.getAb1())
 //                .ab2(reqDto.getAb2())
 //                .ab3(reqDto.getAb3())
 //                .build();
-		
+
 		TestRequestVO reqVo = TestTransform.transform(reqDto);
-		
+
 		final TestResponseVO resVo = testCodeDAO.selectCodeOne(reqVo);
-		
+
 //		TestOneResponseDTO toRes = TestOneResponseDTO.builder().build();
 //		
 //		if(resVo != null) {
@@ -53,8 +52,8 @@ public class TestService {
 //		
 //		return toRes;
 		return TestTransform.transform(resVo);
-	}	
-	
+	}
+
 	@Transactional(rollbackFor = Exception.class)
 	public void saveInsTestData(TestRequestDTO reqDto) throws Exception {
 //		TestRequestVO reqVo = TestRequestVO.builder()
@@ -62,12 +61,12 @@ public class TestService {
 //                .ab2(reqDto.getAb2())
 //                .ab3(reqDto.getAb3())
 //                .build();	
-		
+
 		TestRequestVO reqVo = TestTransform.transform(reqDto);
-		
-		testCodeDAO.insertCode(reqVo);		
+
+		testCodeDAO.insertCode(reqVo);
 	}
-	
+
 	@Transactional(rollbackFor = Exception.class)
 	public void updateTestData(TestRequestDTO reqDto) throws Exception {
 //		TestRequestVO reqVo = TestRequestVO.builder()
@@ -75,13 +74,12 @@ public class TestService {
 //                .ab2(reqDto.getAb2())
 //                .ab3(reqDto.getAb3())
 //                .build();	
-		
+
 		TestRequestVO reqVo = TestTransform.transform(reqDto);
-		
+
 		testCodeDAO.updateCode(reqVo);
 	}
-	
-	
+
 	@Transactional(rollbackFor = Exception.class)
 	public void deleteTestData(TestRequestDTO reqDto) throws Exception {
 //		TestRequestVO reqVo = TestRequestVO.builder()
@@ -89,11 +87,17 @@ public class TestService {
 //                .ab2(reqDto.getAb2())
 //                .ab3(reqDto.getAb3())
 //                .build();	
-		
+
 		TestRequestVO reqVo = TestTransform.transform(reqDto);
-		
+
 		testCodeDAO.deleteCode(reqVo);
 	}
 
+	@Autowired
+	TestClient testClient;
 
+	// client의 기능을 사용할 메소드 testFeign 작성
+	public String testFeign() {
+		return testClient.testFeign();
+	}
 }
