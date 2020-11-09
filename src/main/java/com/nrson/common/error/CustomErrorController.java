@@ -25,7 +25,7 @@ public class CustomErrorController implements ErrorController {
 			} 
 			
 			if(statusCode == HttpStatus.FORBIDDEN.value()) { 
-				return VIEW_PATH + "500"; 
+				return VIEW_PATH + "500 error"; 
 			} 
 		} 
 		
